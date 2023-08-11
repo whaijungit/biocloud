@@ -1,0 +1,1 @@
+export { default as LoadingCenter } from './loading.center'

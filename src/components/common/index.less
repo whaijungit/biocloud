@@ -1,0 +1,61 @@
+@import '@/css/var.less';
+
+.checked-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.number-slider-wrapper {
+    gap: 10px;
+    display: flex;
+    padding-left: 8px;
+
+    .slider-wrapper {
+        flex-grow: 1;
+    }
+}
+
+.status {
+    display: flex;
+    max-width: 62px;
+    padding: 1px 10px;
+    border-radius: 30px;
+    align-items: center;
+    justify-content: center;
+
+    &.runing {
+
+        background-color: #73CDFF;
+    }
+
+    &.success {
+        background-color: #81EDA3;
+    }
+
+    &.reject {
+        background-color: #FF8989;
+    }
+
+    &.wraing {
+        background-color: #FFDBB3;
+    }
+
+    &.bule {
+        background-color: #BCCEFF;
+    }
+}
+
+.action-wrapper {
+    height: 40px;
+    display: flex;
+    font-size: 18px;
+    align-items: center;
+    color: @primary-color;
+}
+
+.iconfont {
+    color: inherit;
+    cursor: pointer;
+    font-size: inherit;
+}

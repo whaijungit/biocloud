@@ -1,0 +1,24 @@
+@import './var.less';
+
+.card(@radius: 8px, @padding: 20px, @height: 144px) {
+    height: @height;
+    padding: @padding;
+    border-radius: @radius;
+    background-color: @light;
+}
+
+.table-action {
+    gap: 1em;
+    display: flex;
+    font-size: 20px;
+    color: @primary-color;
+}
+
+.table-header {
+    display: flex;
+    margin-bottom: 1em;
+
+    .table-header-filter {
+        flex-grow: 1;
+    }
+}
