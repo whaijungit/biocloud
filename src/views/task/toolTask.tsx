@@ -3,7 +3,7 @@ import type { TableProps } from 'antd'
 import { ITask } from '@/interface/task'
 import { Popconfirm, Table, Typography } from 'antd'
 import useSelectdKeys from '@/hooks/useMenuSelected'
-import { Action, Icon, IconType, Status } from '@/components/common'
+import { TableAction, Icon, IconType, Status } from '@/components/common'
 
 
 const ToolTask: React.FC = () => {
@@ -76,12 +76,12 @@ const ToolTask: React.FC = () => {
             width: 120,
             render() {
                 return (
-                    <Action gap={18}>
+                    <TableAction gap={18}>
                         <Icon type={IconType.eye} />
                         <Popconfirm placement='bottom' title='删除任务' >
                             <Icon type={IconType.remove} />
                         </Popconfirm>
-                    </Action>
+                    </TableAction>
                 )
             }
         },

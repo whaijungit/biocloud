@@ -39,8 +39,8 @@ const DrawerUserForm: React.FC<IProps & IEvent> = (props) => {
                     <Input.Password placeholder='请输入确认密码' allowClear />
                 </Form.Item>
             </>}
-            <Form.Item hasFeedback rules={[...requiredRule,]} label='角色' name='role_list'>
-                <Select placeholder='请选择角色' allowClear options={[{ lable: '开发者', value: 1 }, { lable: '审核员', value: 2 }]} mode='multiple' />
+            <Form.Item hasFeedback label='角色' name='role_list'>
+                <Select placeholder='请选择角色' allowClear options={[{ lable: '开发者', value: '开发者' }, { lable: '审核员', value: '审核员', }, { lable: '管理员', value: '管理员', }]} mode='multiple' />
             </Form.Item>
             <Form.Item hasFeedback rules={[{ pattern: /^1[3456789]\d{9}$/, message: '手机格式不正确' }, ...requiredRule,]} label='手机号码' name='mobile'>
                 <Input placeholder='请输入手机号码' allowClear />
@@ -50,7 +50,7 @@ const DrawerUserForm: React.FC<IProps & IEvent> = (props) => {
             </Form.Item>
             <Form.Item name='sex' label='性别'>
                 <Radio.Group
-                    options={[{ label: '男', value: '男' }, { label: '男', value: '女' }]}
+                    options={[{ label: '男', value: '男' }, { label: '女', value: '女' }]}
                 />
             </Form.Item>
             <Form.Item hasFeedback rules={[{ max: 50, message: '专业字符最长50个字符' }, ...requiredRule,]} label='专业' name='profession'>

@@ -1,15 +1,15 @@
 import { mock } from 'mockjs';
+import { IRole } from '@/interface/role'
 import { IPageData, IResponse } from '@/interface/resp'
-import { IRole } from '@/interface/role';
 
-mock(/\/api\/system\/roles\//, 'get', {
+mock(/\/api\/system\/roles\/$/, 'get', {
     code: 200,
     msg: '',
     data: {
         count: 10,
         "results": [
             {
-                "id": 1,
+                "id": 123,
                 name: "@cname",
                 desc: "@cparagraph(1, 3)",
                 create_time: '@datetime()',
@@ -20,14 +20,24 @@ mock(/\/api\/system\/roles\//, 'get', {
     }
 } as IResponse<IPageData<IRole>>)
 
-mock(/\/api\/system\/users\//, 'delete', {
+mock(/\/api\/system\/roles\//, 'delete', {
     code: 200,
     msg: '',
     data: true
 } as IResponse<any>)
 
-mock(/\/api\/system\/users\//, 'patch', {
+mock(/\/api\/system\/roles\//, 'patch', {
     code: 404,
     msg: '',
     data: true
 } as IResponse<any>)
+
+mock(/\/api\/system\/roles\/.*\//, 'get', {
+    code: 200,
+    msg: '123123',
+    data: {
+        id: 1,
+        name: '角色',
+        desc: 'hh123123'
+    }
+} as IResponse<IRole>)

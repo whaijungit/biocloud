@@ -5,6 +5,8 @@ import { IFlatteningItem } from './option'
 export interface IUser {
     /** 用户id */
     id: number
+    /** 用户 */
+    sex: string
     /** 邮箱 */
     email: string
     /** 用户头像 */

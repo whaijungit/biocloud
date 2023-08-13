@@ -1,12 +1,12 @@
 @import './var.less';
 @import './utils.less';
+@import '@/assets/css/index.css';
 
 * {
     box-sizing: border-box;
 }
 
 table {
-
 
     thead {
         white-space: nowrap !important;
@@ -29,12 +29,13 @@ table {
     }
 
     tbody {
-        tr:first-child {
-            display: none;
+
+        .biocloud-table-cell {
+            padding: 8px 10px !important;
         }
 
-        td {
-            padding: 7px 6px !important;
+        .biocloud-table-cell-row-hover {
+            background-color: #ffffff !important;
         }
     }
 }

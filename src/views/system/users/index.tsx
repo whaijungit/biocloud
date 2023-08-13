@@ -2,22 +2,27 @@ import './index.less'
 import { Link } from '@/config'
 import DrawerUserForm from './form'
 import { IUser } from '@/interface/user'
+import RoleListModal from '../roles/list'
 import { useEffect, useState } from 'react'
+import { StatusCode } from '@/interface/resp'
 import useSelectdKeys from '@/hooks/useMenuSelected'
-import { Icon, IconType } from '@/components/common'
-import { create, queryList, remove, setActive, update } from '@/api/user'
+import { Icon, IconType, TableAction } from '@/components/common'
+import { create, findById, publishRole, queryList, remove, setActive, update } from '@/api/user'
 import { Button, Input, Popconfirm, Switch, Table, TableProps, Tooltip, notification } from 'antd'
 
 const Users: React.FC = () => {
     const [total, setTotal] = useState(0)
+    const [search, setSearch] = useState('')
     const [pageSize, setPageSize] = useState(10)
     const [loading, setLoading] = useState(false)
-    const [pageNumber, setPageNumber] = useState(1)
     useSelectdKeys([`/${Link.sys}/${Link.users}`])
+    const [pageNumber, setPageNumber] = useState(1)
     const [curItem, setCurItem] = useState<IUser>()
     const [users, setUsers] = useState<IUser[]>([])
-    const [search, setSearch] = useState('')
+    const [isPublish, setIsPublish] = useState(false)
+    const [roleModal, setRoleModal] = useState(false)
     const [openDrawer, setOpenDrawer] = useState(false)
+    const [roleIds, setRoleIds] = useState<number[]>([])
     const fetchData = async () => {
         setLoading(true)
         const resp = await queryList({ page: pageNumber, pageSize, search })
@@ -33,10 +38,33 @@ const Users: React.FC = () => {
     const handleClickCreate = () => {
         setOpenDrawer(true)
     }
+    const handleCancelRoleModal = () => {
+        setRoleIds([])
+        setRoleModal(false)
+        setIsPublish(false)
+        setCurItem(undefined)
+    }
 
-    const handleClickEditor = (record: IUser) => {
-        setOpenDrawer(true)
-        setCurItem(record)
+    const handleFindUserRole = async (record: IUser) => {
+        setLoading(true)
+        const r = await findById(record.id)
+        if (r.code === StatusCode.success) {
+            setRoleModal(true)
+            setCurItem(r.data)
+            console.log(r.data.roles_list);
+            setRoleIds(r.data.roles_list)
+        }
+        setLoading(false)
+    }
+
+    const handleClickEditor = async (record: IUser) => {
+        setLoading(true)
+        const r = await findById(record.id)
+        if (r.code === 200) {
+            setOpenDrawer(true)
+            setCurItem(r.data)
+        }
+        setLoading(false)
     }
     const handleChangeActive = async (record: IUser) => {
         setLoading(true)
@@ -58,8 +86,8 @@ const Users: React.FC = () => {
             notification.success({ message: `删除 ${record.realname} 用户成功`, duration: 1 })
         }
     }
+    // 新建&编辑api
     const handleSubmit = async (values: IUser) => {
-        console.log({ ...values, username: values.email });
         if (curItem) {
             const r = await update(curItem.id, { ...values, username: values.email })
             if (r.code === 200) {
@@ -75,6 +103,20 @@ const Users: React.FC = () => {
                 fetchData()
             }
             return r.code === 200
+        }
+    }
+    // 分配角色
+    const handleUserPulishRole = async (rolesIds: number[]) => {
+        if (curItem) {
+            setIsPublish(true)
+            const r = await publishRole({ roles_ids: rolesIds, user_id: curItem.id })
+            if (r.code === StatusCode.success) {
+                notification.success({ message: `${curItem.realname} 角色分配成功` })
+                setCurItem(undefined)
+                setRoleModal(false)
+                setRoleIds([])
+                setIsPublish(false)
+            }
         }
     }
 
@@ -119,7 +161,7 @@ const Users: React.FC = () => {
             dataIndex: 'id',
             render(_, record) {
                 return (
-                    <div className='table-action'>
+                    <TableAction>
                         <Tooltip title="详情">
                             <div>
                                 <Icon type={IconType.eye} />
@@ -128,6 +170,11 @@ const Users: React.FC = () => {
                         <Tooltip title="修改">
                             <div>
                                 <Icon onClick={() => handleClickEditor(record)} type={IconType.editor} />
+                            </div>
+                        </Tooltip>
+                        <Tooltip title="分配角色">
+                            <div>
+                                <Icon onClick={() => handleFindUserRole(record)} type={IconType.roles} />
                             </div>
                         </Tooltip>
                         <Tooltip title="修改密码">
@@ -140,13 +187,21 @@ const Users: React.FC = () => {
                                 <Icon type={IconType.remove} />
                             </div>
                         </Popconfirm>
-                    </div>
+                    </TableAction>
                 )
             }
         }
     ]
     return (
         <section className="users">
+            <RoleListModal
+                width={800}
+                open={roleModal}
+                isLoading={isPublish}
+                defaultRoleIds={roleIds}
+                onClose={handleCancelRoleModal}
+                onConfirm={handleUserPulishRole}
+            />
             <DrawerUserForm
                 title={curItem ? `修改用户 ${curItem.realname}` : `新曾用户`}
                 user={curItem}
