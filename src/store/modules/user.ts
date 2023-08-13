@@ -41,7 +41,6 @@ export const fetchUserInfo = createAsyncThunk('user/whoAmI', async (_, { dispatc
     dispatch(userActions.setLoading(true))
     const info = await userInfo()
     if (info.code === 200) {
-        // const routes = flatteningPermissions(info.data.auths.menus)
         dispatch(userActions.setUser(info.data))
         dispatch(userActions.setMenus(info.data.auths.menus))
         dispatch(userActions.setRoutes(info.data.auths.menus))

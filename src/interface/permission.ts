@@ -1,14 +1,14 @@
 export interface IPermission {
-    create_time: string
-    desc: string
     id: number
-    label: string
-    menu: boolean
-    method: string
+    pid: number
+    desc: string
     name: string
     path: string
-    pid: number
     sign: string
+    menu: boolean
+    label: string
+    method: string
+    create_time: string
     update_time: string
     children?: IPermission[]
 }
