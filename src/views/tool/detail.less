@@ -8,9 +8,23 @@
 
     .tool-detail-param {
         flex: 1;
-        padding: 0px 40px;
         min-width: 580px;
+        padding: 0px 40px;
+        position: relative;
+        transition: .2s linear;
         box-shadow: -1px 0px 0px 0px #E8EAF0 inset;
+
+        .params-collapse {
+            right: 10px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            cursor: pointer;
+            position: absolute;
+            align-items: center;
+            justify-content: center;
+            background-color: #f20;
+        }
     }
 
     .tool-detail-doc {

@@ -34,6 +34,7 @@ const ToolDetail: React.FC<IProps> = (props) => {
     return (
         <article className='tool-detail'>
             <div className='tool-detail-param'>
+                <div className="params-collapse">'《 '</div>
                 <ToolParam onSubmit={async () => {
                     await new Promise(reslove => {
                         setTimeout(() => {
